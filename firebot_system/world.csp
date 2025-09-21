@@ -1,0 +1,50 @@
+// Auto-generated CSP file from ROS map_node
+
+#define ROWS 12;
+#define COLS 12;
+
+#define E 0;
+#define W 1;
+#define F 2;
+
+var x : {0..ROWS-1} = 11;
+var y : {0..COLS-1} = 6;
+
+var water : {0..2} = 2;
+var world[ROWS][COLS] = [
+1,1,1,1,1,1,1,1,1,1,1,1,   // row 0
+ 1,0,0,0,0,0,0,0,0,0,0,1,   // row 1
+ 1,0,0,0,0,0,0,0,0,0,0,1,   // row 2
+ 1,0,0,1,1,1,1,1,1,0,0,1,   // row 3
+ 1,0,0,1,0,0,0,0,1,0,0,1,   // row 4
+ 1,0,0,1,0,0,0,0,1,0,0,1,   // row 5
+ 1,0,0,1,2,0,0,0,1,0,0,1,   // row 6
+ 1,0,0,1,0,0,0,0,1,0,0,1,   // row 7
+ 1,0,2,1,1,0,0,1,1,0,0,1,   // row 8
+ 1,0,0,0,0,0,0,0,0,0,0,1,   // row 9
+ 1,0,0,0,0,0,0,0,0,0,2,1,   // row 10
+ 1,1,1,1,1,0,0,1,1,1,1,1   // row 11
+ ];
+
+Game = 
+  [x > 0 && world[x-1][y] != W] MoveUp
+[] [x < ROWS-1 && world[x+1][y] != W] MoveDown
+[] [y > 0 && world[x][y-1] != W] MoveLeft
+[] [y < COLS-1 && world[x][y+1] != W] MoveRight
+[] [world[x][y] == F && water >= 1] Extinguish
+[] [x == 11 && y == 6 && water < 2] Refill;
+
+MoveUp       = move_up    {x = x - 1;}       -> Game;
+MoveDown     = move_down  {x = x + 1;}       -> Game;
+MoveLeft     = move_left  {y = y - 1;}       -> Game;
+MoveRight    = move_right {y = y + 1;}       -> Game;
+Extinguish   = extinguish {world[x][y] = E; water = water - 1;} -> Game;
+Refill 	 = refill {water = 2;} -> Game;
+
+System = Game;
+
+#define goalAllFiresExtinguishedAndReturn 
+  (&& i:{0..ROWS-1} @ (&& j:{0..COLS-1} @ (world[i][j] != F))) 
+  && (x == 11 && y == 6);
+
+#assert Game reaches goalAllFiresExtinguishedAndReturn;

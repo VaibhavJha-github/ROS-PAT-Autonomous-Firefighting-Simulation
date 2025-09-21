@@ -1,0 +1,20 @@
+=======================================================
+Assertion: Game() reaches goalAllFiresExtinguishedAndReturn
+********Verification Result********
+The Assertion (Game() reaches goalAllFiresExtinguishedAndReturn) is VALID.
+The following trace leads to a state where the condition is satisfied.
+<init -> move_up -> move_up -> move_up -> move_up -> move_up -> move_left -> move_left -> extinguish -> move_down -> move_right -> move_down -> move_down -> move_left -> move_left -> move_left -> move_up -> extinguish -> move_down -> move_down -> move_right -> move_right -> move_right -> move_down -> move_right -> refill -> move_up -> move_right -> move_right -> move_right -> move_right -> extinguish -> move_left -> move_left -> move_left -> move_left -> move_down>
+
+********Verification Setting********
+Admissible Behavior: All
+Search Engine: Shortest Witness Trace using Breadth First Search
+System Abstraction: False
+
+
+********Verification Statistics********
+Visited States:1384
+Total Transitions:4130
+Time Used:0.1408849s
+Estimated Memory Used:12825.016KB
+
+

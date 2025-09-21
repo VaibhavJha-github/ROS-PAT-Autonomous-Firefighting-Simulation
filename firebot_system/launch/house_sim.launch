@@ -1,0 +1,24 @@
+<launch>
+  <arg name="world_file" default="$(find firebot_system)/worlds/home.world"/>
+
+  <!-- Start Gazebo with your world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_file)" />
+    <arg name="paused" value="false" />
+    <arg name="use_sim_time" value="true" />
+    <arg name="gui" value="true" />
+  </include>
+
+  <!-- Load robot URDF -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" />
+
+  <!-- Spawn FireBot -->
+  <node pkg="gazebo_ros" type="spawn_model"
+        name="spawn_firebot" output="screen"
+        args="-urdf -model fire_bot -param robot_description -x 0.5 -y -7.5 -z 0.5 -Y 1.5708 -robot_namespace fire_bot"/>
+
+  <!-- Spawn ScoutBot -->
+  <node pkg="gazebo_ros" type="spawn_model"
+        name="spawn_scoutbot" output="screen"
+        args="-urdf -model scout_bot -param robot_description -x -0.5 -y -7.5 -z 0.5 -Y 1.5708 -robot_namespace scout_bot"/>
+</launch>
